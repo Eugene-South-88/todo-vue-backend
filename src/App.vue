@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import Auth from './components/Auth.vue';
-import Items from './components/Items.vue';
+import Auth from './components/AuthComponent.vue';
+import Items from './components/ItemsComponent.vue';
 
 export default {
   components: {
