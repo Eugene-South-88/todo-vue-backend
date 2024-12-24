@@ -1,0 +1,92 @@
+@use "colors";
+
+/* Общие стили */
+body {
+  font-family: 'Comic Sans MS', sans-serif;
+  background-color: colors.$backgroundColor;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Контейнер */
+.container {
+  margin: 30px auto;
+  width: 80%;
+  max-width: 600px;
+  background-color: colors.$backgroundColor;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Заголовок */
+.title {
+  font-size: 36px;
+  color: colors.$uiElementColor;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Список задач */
+.item-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.item {
+  background-color: colors.$backgroundItem;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+/* Кнопки */
+.button {
+  background-color: colors.$uiElementColor;
+  color: colors.$textColor;
+  font-size: 16px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.button:hover {
+  background-color: colors.$uiElementColor;
+}
+
+/* Поле для ввода */
+.input {
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid colors.$uiElementColor;
+  border-radius: 10px;
+  margin-top: 20px;
+  width: calc(100% - 22px);
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: colors.$uiElementColor;
+}
+
+/* Общие эффекты */
+.input, .button {
+  transition: transform 0.3s ease;
+}
+
+.input:focus, .button:active {
+  transform: scale(1.05);
+}

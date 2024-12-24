@@ -1,27 +1,7 @@
-<template>
-  <div class="container">
-    <h1 class="title">Items</h1>
-    <ul class="item-list">
-      <li class="item" v-for="item in items" :key="item.id">
-        {{ item.name }}
-        <button  class="button" @click="deleteItemHandler(item.id)">Delete</button>
-        <button  class="button" @click="editItem(item)">Edit</button>
-      </li>
-    </ul>
-    <input class="input" v-model="newItemName" placeholder="New item name" />
-    <button class="button" @click="addItem">Add Item</button>
-  </div>
-</template>
-
-<script setup>
-import { ref, onMounted } from 'vue';
-import { getItems, createItem, updateItem, deleteItem } from '../api';
-
-const items = ref([]);
-const newItemName = ref('');
+import { getItems, createItem, updateItem, deleteItem } from './api.js';
 
 // Получение всех элементов
-const fetchItems = async () => {
+export const fetchItems = async (items) => {
   try {
     const response = await getItems();
     items.value = response.data;
@@ -31,33 +11,37 @@ const fetchItems = async () => {
 };
 
 // Добавление нового элемента
-const addItem = async () => {
+export const addItem = async (newItemName, items) => {
   try {
     if (!newItemName.value.trim()) {
       alert('Item name cannot be empty');
       return;
     }
     const newItem = { name: newItemName.value };
-    await createItem(newItem);
+    const response = await createItem(newItem);
     newItemName.value = '';
-    await fetchItems();
+
+    // Локально добавляем элемент
+    items.value.push(response.data);
   } catch (err) {
     console.error('Error adding item:', err);
   }
 };
 
 // Удаление элемента
-const deleteItemHandler = async (id) => {
+export const deleteItemHandler = async (id, items) => {
   try {
     await deleteItem(id);
-    await fetchItems();
+
+    // Локально удаляем элемент
+    items.value = items.value.filter((item) => item.id !== id);
   } catch (err) {
     console.error('Error deleting item:', err);
   }
 };
 
 // Редактирование элемента
-const editItem = async (item) => {
+export const editItem = async (item, items) => {
   try {
     const updatedName = prompt('Edit item name', item.name);
     if (updatedName === null || updatedName.trim() === '') {
@@ -65,12 +49,15 @@ const editItem = async (item) => {
       return;
     }
     const updatedData = { name: updatedName };
-    await updateItem(item.id, updatedData);
-    await fetchItems();
+    const response = await updateItem(item.id, updatedData);
+
+    // Локально обновляем элемент в списке
+    const index = items.value.findIndex((i) => i.id === item.id);
+    if (index !== -1) {
+      items.value[index] = response.data;
+    }
   } catch (err) {
     console.error('Error editing item:', err);
   }
 };
 
-onMounted(fetchItems);
-</script>
