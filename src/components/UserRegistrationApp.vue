@@ -43,7 +43,6 @@ defineProps({
     type: String,
     required: true
   }
-
 })
 
 onMounted(fetchUser)

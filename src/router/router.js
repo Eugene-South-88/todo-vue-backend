@@ -1,17 +1,33 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import AuthLayouts from "../views/layouts/AuthLayout.vue";
-import AppLayout from "../views/layouts/AppLayout.vue";
+import {useMainStore} from "../store/main.js";
 
-export default createRouter({
-  history: createWebHistory(),
-  routes:[
-    {
-      path: '/login',
-      component: AuthLayouts
-    },
-    {
-      path: '/',
-      component: AppLayout
-    }
-  ]
-})
+import AuthView from "../views/AuthView.vue";
+import AppView from "../views/AppView.vue";
+
+const router = createRouter({
+	history: createWebHistory(),
+	routes: [
+		{
+			path: '/login',
+			component: AuthView,
+			meta: {
+				layout: 'AuthLayout',
+			}
+		},
+		{
+			path: '/',
+			component: AppView,
+			meta: {
+				layout: 'AppLayout',
+			}
+		}
+	]
+});
+
+router.afterEach((to) => {
+	const store = useMainStore();
+
+	store.activeLayout = to.meta.layout;
+});
+
+export default router;

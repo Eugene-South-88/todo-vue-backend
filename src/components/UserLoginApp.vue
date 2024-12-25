@@ -1,19 +1,24 @@
 <template>
   <div class="container" v-if="!token">
     <h1 class="title">Вход</h1>
+
     <div>
       <input class="input" v-model="username" placeholder="Имя"/>
-      <input class="input" v-model="password" type="password" placeholder="Пороль"/>
+
+      <input class="input" v-model="password" type="password" placeholder="Пароль"/>
+
       <button class="button" @click="loginUser">Войти</button>
       <p
           style="cursor: pointer; color: blue"
-          @click="openRegistration"
-      >Зарегестрироваться
+      >
+        Зарегистрироваться
       </p>
     </div>
   </div>
+
   <div v-else-if="token" class="container">
     <h2>Welcome, {{ user?.username }}</h2>
+
     <button class="button" @click="logoutUser">Logout</button>
   </div>
 </template>
@@ -28,23 +33,18 @@ const password = ref('');
 const token = ref(localStorage.getItem('token') || null);
 const user = ref(null);
 
-let isActive = false
-const toggleComponent = () =>{
-  isActive = !isActive
-
-}
-
-
 const fetchUser = async () => await fetchCurrentUser(token.value, user, () => logout(token, user))
 
-const loginUser = async () =>{
+const loginUser = async () => {
   await handleLogin(username.value, password.value, token, fetchUser)
   await router.push('/')
 }
 
-const logoutUser =  ()=> logout(token, user)
+const logoutUser = () => logout(token, user);
 
-onMounted(fetchUser)
+onMounted(() => {
+  fetchUser();
+})
 </script>
 
 <style lang="scss" scoped>

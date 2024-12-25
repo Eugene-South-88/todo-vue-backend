@@ -15,8 +15,10 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import {logout, fetchCurrentUser} from "../api/users.js";
 import router from "../router/router.js";
+
+import {logout} from "../api/users.js";
+import {getCurrentUser} from "../api/api.js";
 
 const token = ref(localStorage.getItem('token') || null);
 const user = ref(null);
@@ -26,9 +28,17 @@ const logoutUser = () => {
   router.push('/login')
 }
 
+onMounted(() => {
+  getCurrentUser()
+      .then((res) => {
+        user.value = res.data;
+      })
+      .catch((err) => {
+        console.error('Error fetching user:', err);
 
-
-onMounted(fetchCurrentUser)
+        logoutUser();
+      })
+});
 </script>
 
 <style scoped>
