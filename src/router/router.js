@@ -6,11 +6,11 @@ export default createRouter({
   history: createWebHistory(),
   routes:[
     {
-      path: '/',
+      path: '/login',
       component: AuthLayouts
     },
     {
-      path: '/app',
+      path: '/',
       component: AppLayout
     }
   ]

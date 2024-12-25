@@ -23,7 +23,7 @@ const user = ref(null);
 
 const logoutUser = () => {
   logout(token, user)
-  router.push('/')
+  router.push('/login')
 }
 
 
